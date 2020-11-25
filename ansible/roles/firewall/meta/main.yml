@@ -1,0 +1,9 @@
+---
+# file: roles/firewall/meta/main.yml
+galaxy_info:
+  role_name: firewall
+  author: Romanov Alex (romanowalex@mail.ru)
+  description: Configure firewall
+  min_ansible_version: 2.7
+  platforms:
+    - name: Ubuntu

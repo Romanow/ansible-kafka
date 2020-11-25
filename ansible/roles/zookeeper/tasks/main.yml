@@ -1,0 +1,64 @@
+---
+# file: roles/zookeeper/tasks/main.yml
+- name: Create Zookeeper group
+  group:
+    name: "{{ zookeeper.group }}"
+    state: present
+
+- name: Create Zookeeper user
+  user:
+    name: "{{ zookeeper.user }}"
+    group: "{{ zookeeper.group }}"
+    state: present
+
+- name: Download Zookeeper
+  get_url:
+    url: "https://apache-mirror.rbc.ru/pub/apache/zookeeper/zookeeper-{{ zookeeper.version }}/apache-zookeeper-{{ zookeeper.version }}-bin.tar.gz"
+    dest: "/tmp/apache-zookeeper-{{ zookeeper.version }}.tar.gz"
+    mode: 0644
+
+- name: Create Zookeeper dirs
+  file:
+    path: "{{ item }}"
+    owner: "{{ zookeeper.user }}"
+    group: "{{ zookeeper.group }}"
+    recurse: yes
+    mode: 0755
+  with_items:
+    - "{{ zookeeper.home_dir }}"
+    - "{{ zookeeper.data_dir }}"
+    - "{{ zookeeper.conf_dir }}"
+    - "{{ zookeeper.log_dir }}"
+
+- name: Unpack Zookeeper
+  unarchive:
+    src: "/tmp/apache-zookeeper-{{ zookeeper.version }}.tar.gz"
+    dest: "{{ zookeeper.home_dir }}"
+    owner: "{{ zookeeper.user }}"
+    group: "{{ zookeeper.group }}"
+    remote_src: yes
+    extra_opts: [--strip-components=1]
+    mode: 0755
+
+- name: Create Zookeeper config
+  template:
+    src: zookeeper.properties.j2
+    dest: "{{ zookeeper.conf_dir }}/zookeeper.properties"
+    owner: "{{ zookeeper.user }}"
+    group: "{{ zookeeper.group }}"
+    mode: 0644
+
+- name: Create Zookeeper systemd service
+  template:
+    src: zookeeper.service.j2
+    dest: /etc/systemd/system/zookeeper.service
+
+- name: Reload systemd daemon
+  systemd:
+    daemon-reload: yes
+
+- name: Start Zookeeper service
+  service:
+    name: zookeeper.service
+    state: started
+    enabled: yes

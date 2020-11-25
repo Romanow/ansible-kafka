@@ -1,0 +1,7 @@
+---
+# file: roles/firewall/handlers/main.yml
+- name: restart ufw
+  become: yes
+  service:
+    name: ufw
+    state: restarted

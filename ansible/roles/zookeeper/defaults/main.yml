@@ -1,0 +1,11 @@
+---
+# file: roles/zookeeper/defaults/main.yml
+zookeeper:
+  version: 3.6.2
+  port: 2181
+  user: zookeeper
+  group: zookeeper
+  home_dir: /opt/zookeeper
+  conf_dir: /opt/zookeeper/conf
+  data_dir: /tmp/zookeeper
+  log_dir: /var/log/zookeeper

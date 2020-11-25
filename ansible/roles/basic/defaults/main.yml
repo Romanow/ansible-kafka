@@ -1,0 +1,14 @@
+---
+# file: roles/basic/defaults/main.yml
+basic_packages:
+  - ca-certificates
+  - apt-transport-https
+  - software-properties-common
+  - aptitude
+  - net-tools
+  - openjdk-11-jdk-headless
+  - jq
+  - zip
+  - unzip
+  - python3
+  - python3-pip

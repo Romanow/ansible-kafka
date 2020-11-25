@@ -1,0 +1,11 @@
+---
+# file: roles/zookeeper/meta/main.yml
+galaxy_info:
+  role_name: zookeeper
+  author: Romanov Alex (romanowalex@mail.ru)
+  description: Install and configure zookeeper
+  min_ansible_version: 2.7
+  platforms:
+    - name: Ubuntu
+dependencies:
+  - role: basic

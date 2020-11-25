@@ -1,0 +1,9 @@
+---
+# file: roles/basic/meta/main.yml
+galaxy_info:
+  role_name: basic
+  author: Romanov Alex (romanowalex@mail.ru)
+  description: Basic configuration
+  min_ansible_version: 2.7
+  platforms:
+    - name: Ubuntu

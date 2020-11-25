@@ -1,0 +1,68 @@
+---
+# file: roles/kafka/tasks/main.yml
+- name: Create Kafka group
+  group:
+    name: "{{ kafka.group }}"
+    state: present
+
+- name: Create Kafka user
+  user:
+    name: "{{ kafka.user }}"
+    group: "{{ kafka.group }}"
+    state: present
+
+- name: Download Kafka
+  get_url:
+    url: "https://apache-mirror.rbc.ru/pub/apache/kafka/{{ kafka.version }}/kafka_2.12-{{ kafka.version }}.tgz"
+    dest: "/tmp/kafka-{{ kafka.version }}.tar.gz"
+    mode: 0644
+
+- name: Create Kafka dirs
+  file:
+    path: "{{ item }}"
+    owner: "{{ kafka.user }}"
+    group: "{{ kafka.group }}"
+    recurse: yes
+    mode: 0755
+  with_items:
+    - "{{ kafka.home_dir }}"
+    - "{{ kafka.conf_dir }}"
+    - "{{ kafka.data_dir }}"
+    - "{{ kafka.log_dir }}"
+
+- name: Unpack Kafka
+  unarchive:
+    src: "/tmp/kafka-{{ kafka.version }}.tar.gz"
+    dest: "{{ kafka.home_dir }}"
+    owner: "{{ kafka.user }}"
+    group: "{{ kafka.group }}"
+    remote_src: yes
+    extra_opts: [--strip-components=1]
+    mode: 0755
+
+- name: Create Kafka config
+  template:
+    src: "{{ item }}.properties.j2"
+    dest: "{{ kafka.conf_dir }}/{{ item }}.properties"
+    owner: "{{ kafka.user }}"
+    group: "{{ kafka.group }}"
+    mode: 0755
+  with_items:
+    - consumer
+    - producer
+    - server
+
+- name: Create Kafka systemd service
+  template:
+    src: kafka.service.j2
+    dest: /etc/systemd/system/kafka.service
+
+- name: Reload systemd daemon
+  systemd:
+    daemon-reload: yes
+
+- name: Start Kafka service
+  service:
+    name: kafka.service
+    state: started
+    enabled: yes

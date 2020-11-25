@@ -1,0 +1,29 @@
+---
+# file: roles/firewall/tasks/main.yml
+- name: Enable SSH
+  become: yes
+  ufw:
+    rule: allow
+    port: ssh
+    comment: "ssh"
+
+- name: Configure IPtables
+  become: yes
+  ufw:
+    rule: "{{ item.policy }}"
+    direction: "{{ item.direction }}"
+    port: "{{ item.port }}"
+    proto: "{{ item.protocol }}"
+    comment: "{{ item.description | default ('') }}"
+  with_items:
+    - "{{ firewall.rules }}"
+  notify:
+    - restart ufw
+  when: firewall.enabled
+
+- name: Enable UFW
+  become: yes
+  ufw:
+    state: enabled
+    policy: deny
+    direction: incoming
