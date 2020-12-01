@@ -1,0 +1,8 @@
+---
+# file: inventories/local/group_vars/zookeeper.yml
+firewall:
+  enabled: true
+  rules:
+    - { port: "2181", direction: "in", protocol: "tcp", policy: "allow", description: "ZooKeeper client ports" }
+    - { port: "2888", direction: "in", protocol: "udp", policy: "allow", description: "Port used by ZooKeeper peers to talk to each other" }
+    - { port: "3888", direction: "in", protocol: "udp", policy: "allow", description: "Port used by ZooKeeper peers to talk to each other" }

@@ -1,0 +1,20 @@
+---
+# file: inventories/local/static.yml
+all:
+  hosts:
+    zookeeper:
+      ansible_host: "192.168.51.10"
+    broker1:
+      ansible_host: "192.168.51.11"
+    broker2:
+      ansible_host: "192.168.51.12"
+  children:
+    cluster:
+      children:
+        zookeeper:
+          hosts:
+            zookeeper:
+        kafka:
+          hosts:
+            broker1:
+            broker2:

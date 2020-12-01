@@ -1,0 +1,10 @@
+---
+# file: inventories/local/group_vars/kafka.yml
+brokers: "{{ hostvars['broker1'].ansible_host }},{{ hostvars['broker2'].ansible_host }}"
+consumer_group_name: kafka-test-consumer-group
+zookeeper_host: "{{ hostvars['zookeeper'].ansible_host }}"
+
+firewall:
+  enabled: true
+  rules:
+    - { port: "9092", direction: "in", protocol: "tcp", policy: "allow", description: "Kafka" }

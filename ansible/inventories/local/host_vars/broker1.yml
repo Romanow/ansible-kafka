@@ -1,0 +1,3 @@
+---
+# file: inventories/local/host_vars/broker1.yml
+broker_id: 1

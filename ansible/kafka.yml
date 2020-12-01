@@ -1,0 +1,11 @@
+---
+# file: kafka.yml
+- hosts: zookeeper
+  become: yes
+  roles:
+    - zookeeper
+
+- hosts: kafka
+  become: yes
+  roles:
+    - kafka

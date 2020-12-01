@@ -1,0 +1,55 @@
+# -*- mode: ruby -*-
+
+servers = [
+    {
+        :hostname => "zookeeper",
+        :ip => "192.168.51.10",
+        :box => "romanow/ansible-box",
+        :version => "20.04",
+        :ram => 512,
+        :cpu => 1
+    },
+    {
+        :hostname => "broker1",
+        :ip => "192.168.51.11",
+        :box => "romanow/ansible-box",
+        :version => "20.04",
+        :ram => 1024,
+        :cpu => 1
+    },
+    {
+        :hostname => "broker2",
+        :ip => "192.168.51.12",
+        :box => "romanow/ansible-box",
+        :version => "20.04",
+        :ram => 1024,
+        :cpu => 1
+    }
+]
+
+Vagrant.configure(2) do |config|
+  config.ssh.username = "ansible"
+  config.ssh.password = "root"
+
+  servers.each do |machine|
+    config.vm.define machine[:hostname] do |node|
+      node.vm.box = machine[:box]
+      node.vm.box_version = machine[:version]
+      node.vm.hostname = machine[:hostname]
+      node.vm.network "private_network", ip: machine[:ip]
+
+      config.vm.provider "virtualbox" do |vm|
+        vm.memory = machine[:ram]
+        vm.cpus = machine[:cpu]
+      end
+    end
+
+    config.vm.provision :shell,inline: "sed 's/127\.0\.1\.1.*/#{machine[:ip]}    #{machine[:hostname]}/' -i /etc/hosts"
+    config.vm.provision "shell" do |s|
+      ssh_pub_key = File.readlines("#{Dir.home}/.ssh/id_rsa.pub").first.strip
+      s.inline = <<-SHELL
+            echo #{ssh_pub_key} >> /home/ansible/.ssh/authorized_keys
+      SHELL
+    end
+  end
+end
