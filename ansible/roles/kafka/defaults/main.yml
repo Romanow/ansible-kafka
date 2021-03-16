@@ -1,7 +1,7 @@
 ---
 # file: roles/kafka/defaults/main.yml
 kafka:
-  version: 2.6.0
+  version: 2.7.0
   port: 9092
   user: kafka
   group: kafka

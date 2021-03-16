@@ -3,7 +3,5 @@
 .vagrant
 .vault_pass
 *.iml
-.idea/
-.gradle/
-out/
-build/
+.terraform
+terraform.state.*

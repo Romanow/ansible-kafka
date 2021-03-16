@@ -1,0 +1,9 @@
+---
+# file: inventories/digitalocean/group_vars/kafka.yml
+brokers: "{{ groups['kafka'] | map('extract', hostvars, ['ansible_default_ipv4','address']) | list }}"
+zookeeper_host: "{{ groups['zookeeper'] | first }}"
+consumer_group_name: kafka-test-consumer-group
+firewall:
+  enabled: true
+  rules:
+    - { port: "9092", direction: "in", protocol: "tcp", policy: "allow", description: "Kafka" }

@@ -1,0 +1,3 @@
+---
+# file: inventories/digitalocean/group_vars/broker1.yml
+broker_id: 2

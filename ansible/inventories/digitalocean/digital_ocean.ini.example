@@ -1,0 +1,5 @@
+[digital_ocean]
+api_token = <token>
+cache_path = /tmp
+cache_max_age = 300
+use_private_network = False
