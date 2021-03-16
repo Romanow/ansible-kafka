@@ -7,7 +7,7 @@ data "digitalocean_droplet_snapshot" "vm_snapshot" {
 resource "digitalocean_droplet" "vm" {
   count  = var.vm.count
   image  = data.digitalocean_droplet_snapshot.vm_snapshot.id
-  name   = "vm-${count.index}"
+  name   = "vm-${var.vm.name}-${count.index}"
   region = var.vm.region
   size   = var.vm.size
   tags   = compact([
@@ -20,9 +20,4 @@ resource "digitalocean_droplet" "vm" {
 output "instance_ip_addr" {
   value       = digitalocean_droplet.vm.*.ipv4_address
   description = "The IP addresses of the deployed instances, paired with their IDs."
-}
-
-output "droplet_price" {
-  value       = digitalocean_droplet.vm.*.price_hourly
-  description = "Droplet price per hour"
 }
