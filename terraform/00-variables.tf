@@ -18,3 +18,8 @@ variable "vm" {
     image  = "base-dev-image.16-03-2021"
   }
 }
+
+variable "domain" {
+  type = string
+  default = "romanow-alex.ru"
+}

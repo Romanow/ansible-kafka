@@ -7,7 +7,7 @@ advertised.host.name={{ ansible_ssh_host }}
 zookeeper.connect={{ zookeeper_host }}:2181
 zookeeper.connection.timeout.ms=18000
 
-logs.dir={{ kafka.data_dir }}
+log.dir={{ kafka.data_dir }}
 
 # The replication factor for the group metadata internal topics "__consumer_offsets" and "__transaction_state"
 # For anything other than development testing, a value greater than 1 is recommended to ensure availability such as 3.

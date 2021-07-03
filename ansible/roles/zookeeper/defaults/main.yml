@@ -1,7 +1,7 @@
 ---
 # file: roles/zookeeper/defaults/main.yml
 zookeeper:
-  version: 3.6.2
+  version: 3.7.0
   port: 2181
   user: zookeeper
   group: zookeeper

@@ -5,3 +5,4 @@
 *.iml
 .terraform
 terraform.state.*
+.terraform.state.*
