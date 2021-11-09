@@ -13,6 +13,16 @@
     ```
    
 ### Запуск playbook
-```shell script
+
+#### Local inventory
+
+```shell
 ansible-playbook -i inventories/local/static.yml --vault-password-file=.vault_pass kafka.yml
+```
+
+#### DigitalOcean inventory
+
+```shell
+export DO_API_TOKEN=<DigitalOcean Token>
+ansible-playbook -i inventories/digitalocean/digital_ocean.py --vault-password-file=.vault_pass kafka.yml
 ```
